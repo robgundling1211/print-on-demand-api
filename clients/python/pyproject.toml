@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "merch1211"
+version = "0.1.0"
+description = "Print-on-demand API client with no account or key: put a picture on a shirt, hoodie, cap, tumbler or tote and get the link where the person buys it."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = []
+keywords = ["print on demand api", "print on demand", "t-shirt printing api", "custom merch api", "custom t-shirt", "pod api", "printful alternative", "ai art"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Office/Business",
+]
+
+[project.urls]
+Homepage = "https://1211holding.com/developers"
+Documentation = "https://1211holding.com/openapi.json"
+Source = "https://github.com/robgundling1211/print-on-demand-api"
+
+[tool.setuptools]
+packages = ["merch1211"]

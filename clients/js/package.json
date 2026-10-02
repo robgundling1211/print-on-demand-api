@@ -1,0 +1,15 @@
+{
+  "name": "merch1211",
+  "version": "0.1.0",
+  "description": "Print-on-demand API client with no account or key: put a picture on a shirt, hoodie, cap, tumbler or tote and get the link where the person buys it.",
+  "type": "module",
+  "main": "index.mjs",
+  "types": "index.d.ts",
+  "exports": { ".": { "types": "./index.d.ts", "default": "./index.mjs" } },
+  "files": ["index.mjs", "index.d.ts", "README.md"],
+  "engines": { "node": ">=18" },
+  "keywords": ["print on demand api", "print on demand", "t-shirt printing api", "custom merch api", "custom t-shirt", "pod", "printful alternative", "ai art"],
+  "homepage": "https://1211holding.com/developers",
+  "repository": { "type": "git", "url": "git+https://github.com/robgundling1211/print-on-demand-api.git", "directory": "clients/js" },
+  "license": "MIT"
+}

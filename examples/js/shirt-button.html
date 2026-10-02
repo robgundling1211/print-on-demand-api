@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Put it on a shirt - a 1211 example</title>
+<style>
+  body { font: 17px/1.5 system-ui, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; }
+  button, input, select { font: inherit; min-height: 44px; }
+  button { padding: 0 18px; border-radius: 10px; border: 0; background: #0f766e; color: #fff; cursor: pointer; }
+  #out { margin-top: 16px; }
+  #out img { max-width: 100%; border-radius: 10px; }
+</style>
+</head>
+<body>
+<h1>Put it on a shirt</h1>
+<p>Pick a picture; this page sends it to the 1211 API (no key) and opens the page where it can be bought.</p>
+<p><input type="file" id="pic" accept="image/*"></p>
+<p>
+  <select id="item"><option value="tee">T-shirt</option><option value="hoodie">Hoodie</option><option value="crewneck">Sweatshirt</option><option value="tote">Tote bag</option></select>
+  <label><input type="checkbox" id="big" checked> Big, centered</label>
+</p>
+<p><button id="go">Put it on a shirt</button></p>
+<div id="out"></div>
+<script type="module">
+  // In your app: npm install merch1211, then import { upload, createDesign } from "merch1211".
+  // This file calls the API directly so it runs as-is, opened from disk or any web server.
+  const API = "https://1211holding.com/v1";
+  const out = document.getElementById("out");
+  document.getElementById("go").addEventListener("click", async () => {
+    const file = document.getElementById("pic").files[0];
+    if (!file) { out.textContent = "Pick a picture first."; return; }
+    out.textContent = "Uploading...";
+    const fd = new FormData();
+    fd.append("art_file", file);
+    const up = await (await fetch(`${API}/art`, { method: "POST", body: fd })).json();
+    if (!up.ok) { out.textContent = up.problems.map((p) => p.says + " " + p.fix).join(" "); return; }
+    const item = document.getElementById("item").value;
+    const front = { art: { upload: up.upload } };
+    if (document.getElementById("big").checked) front.placement = "center";
+    const res = await fetch(`${API}/designs`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ item, front, ref: "example-button" }),
+    });
+    const d = await res.json();
+    if (res.status !== 201) { out.textContent = d.problems.map((p) => p.says + " " + p.fix).join(" "); return; }
+    out.innerHTML = "";
+    const img = new Image(); img.src = d.mockup.front; img.alt = "Your picture on the " + d.item_name;
+    const a = document.createElement("a"); a.href = d.url; a.textContent = `Buy it: $${d.price.usd}, free US shipping`;
+    out.append(img, document.createElement("br"), a);
+  });
+</script>
+</body>
+</html>
